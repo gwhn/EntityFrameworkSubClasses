@@ -15,8 +15,9 @@ namespace EntityFrameworkSubClasses
         {
             using (var ctx = new MyContext())
             {
-                var @as = ctx.As;
-                foreach (var a in @as)
+                ctx.Database.Log = Console.WriteLine;
+                var qry = ctx.As.Include("B");
+                foreach (var a in qry)
                 {
                     Console.WriteLine("A.Id={0}", a.Id);
                     Console.WriteLine("A.Name={0}", a.Name);
@@ -26,6 +27,7 @@ namespace EntityFrameworkSubClasses
                     {
                         var bb = a.B as Bb;
                         Console.WriteLine("A.Bb.SubName={0}", bb.SubName);
+                        ctx.Entry(bb).Reference(x => x.D).Load();
                         Console.WriteLine("A.Bb.D.Name={0}", bb.D.Name);
                         if (bb.D is Dd)
                         {
@@ -37,6 +39,7 @@ namespace EntityFrameworkSubClasses
                     {
                         var aa = a as Aa;
                         Console.WriteLine("Aa.SubName={0}", aa.SubName);
+                        ctx.Entry(aa).Reference(x => x.C).Load();
                         Console.WriteLine("Aa.C.Id={0}", aa.C.Id);
                         Console.WriteLine("Aa.C.Name={0}", aa.C.Name);
                         if (aa.C is Cc)
