@@ -13,6 +13,40 @@ namespace EntityFrameworkSubClasses
     {
         static void Main(string[] args)
         {
+            using (var ctx = new MyContext())
+            {
+                var @as = ctx.As;
+                foreach (var a in @as)
+                {
+                    Console.WriteLine("A.Id={0}", a.Id);
+                    Console.WriteLine("A.Name={0}", a.Name);
+                    Console.WriteLine("B.Id={0}", a.B.Id);
+                    Console.WriteLine("B.Name={0}", a.B.Name);
+                    if (a.B is Bb)
+                    {
+                        var bb = a.B as Bb;
+                        Console.WriteLine("A.Bb.SubName={0}", bb.SubName);
+                        Console.WriteLine("A.Bb.D.Name={0}", bb.D.Name);
+                        if (bb.D is Dd)
+                        {
+                            var dd = bb.D as Dd;
+                            Console.WriteLine("A.Bb.Dd.Name={0}", dd.SubName);
+                        }
+                    }
+                    if (a is Aa)
+                    {
+                        var aa = a as Aa;
+                        Console.WriteLine("Aa.SubName={0}", aa.SubName);
+                        Console.WriteLine("Aa.C.Id={0}", aa.C.Id);
+                        Console.WriteLine("Aa.C.Name={0}", aa.C.Name);
+                        if (aa.C is Cc)
+                        {
+                            var cc = aa.C as Cc;
+                            Console.WriteLine("Aa.Cc.SubName={0}", cc.SubName);
+                        }
+                    }
+                }
+            }
         }
     }
 
