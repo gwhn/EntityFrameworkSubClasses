@@ -15,7 +15,7 @@ namespace EntityFrameworkSubClasses
         {
             using (var ctx = new MyContext())
             {
-                var @as = ctx.As;
+                var @as = ctx.As.Include("B").Include("B.D");
                 foreach (var a in @as)
                 {
                     Console.WriteLine("A.Id={0}", a.Id);
